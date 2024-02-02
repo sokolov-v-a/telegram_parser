@@ -1,1 +1,1 @@
-flask --app telegram_parser run --debug
+flask --app tparser run --debug
