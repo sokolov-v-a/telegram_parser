@@ -34,17 +34,16 @@ class Post(db.Model):
     def delete(self):
         self.is_deleted = True
 
-    def __repr__(self):
-        return f"Post id={self.id} text={self.text[:40]}"
-
     def get_sentiment_color(self):
         comments = Comment.query.filter(Comment.post_id == self.id).all()
-        print("DEBUG:", comment)
-        comments_colors = []
-        for comment in comments:
-            comments_colors.append(comment.sentiment_color)
+        print("DEBUG:", comments)
+        comments_colors = [comment.sentiment_color for comment in comments]
         sentiment_color = sum(comments_colors) / len(comments_colors)
+        print("DEBUG:", sentiment_color)
         self.sentiment_color = sentiment_color
+
+    def __repr__(self):
+        return f"Post id={self.id} text={self.text[:40]}"
 
 
 class Comment(db.Model):

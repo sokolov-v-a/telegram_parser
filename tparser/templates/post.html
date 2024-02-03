@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="card border-dark mb-3" style="max-width: 18rem;">
+          <div class="card-header">{{ post.id }}</div>
+          <div class="card-body">
+            <h5 class="card-title">{{ post.sentiment_color }}</h5>
+            <p class="card-text">{{post.text}}</p>
+          </div>
+          </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <ul class="list-group">
+          {% for post in posts %}
+            <li class="list-group-item">{{post.text}}</li>
+          {% endfor %}
+      </div>      
+    </div>
+  </div> 
+{% endblock %}

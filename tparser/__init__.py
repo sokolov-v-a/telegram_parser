@@ -21,7 +21,7 @@ def create_app():
         # jobs = scheduler.get_jobs()
         channels = Channel.query.all()
 
-        return render_template("index.html", page_title=title, jobs=[1, 2, 3], channels=channels)
+        return render_template("index.html", page_title=title, channels=channels)
 
     @app.route("/parse")
     def run_parser():
@@ -36,6 +36,12 @@ def create_app():
         posts = Post.query.all()
 
         return render_template("channel.html", posts=posts)
+
+    @app.route("/post/<int:post_id>")
+    def get_post(post_id):
+        post = Post.query.filter(Post.id == post_id).first()
+
+        return render_template("post.html", post=post)
 
     return app
 

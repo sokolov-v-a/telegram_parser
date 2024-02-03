@@ -19,7 +19,7 @@ def get_data_from_tg():
 
     for message in client.iter_messages(full_channel.full_chat.id, limit=POSTS_LIMIT):
         parse_posts(full_channel, message)
-        
+
         post.get_sentiment_color()
         try:
             db.session.commit()
@@ -46,7 +46,7 @@ def parse_posts(full_channel, message):
             db.session.rollback()
         parse_comments(full_channel, post, message)
         post.get_sentiment_color()
-        db.session.add(post)  
+        db.session.add(post)
         try:
             db.session.commit()
         except Exception:

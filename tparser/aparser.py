@@ -33,27 +33,33 @@ async def get_data_from_tg():
                     db.session.commit()
                 except Exception:
                     db.session.rollback()
+                
 
-            # Проверка, есть ли у сообщения ответы, прежде чем пытаться их получить
-            if message.replies:
-                # Попытка получить ответы только при наличии действительного идентификатора сообщения
-                reply_message = await client.get_messages(full_channel.full_chat.id, ids=message.id)
-                async for comment in client.iter_messages(full_channel.full_chat.id, reply_to=reply_message.id):
-                    comment_obj = Comment(
-                        post_id=comment.id,
-                        text=comment.text,
-                        number=str(comment.id),
-                        sentiment_color=get_sentiment(comment.text),  # Замените на необходимое значение
-                    )
-
-                    db.session.add(comment_obj)
-                    try:
-                        db.session.commit()
-                    except Exception:
-                        db.session.rollback()
+                await get_comments(post, full_channel, message)
+                post.get_sentiment_color()
 
         await client.disconnect()
         return "Job Done!"
+
+
+async def get_comments(post, full_channel, message):
+    # Проверка, есть ли у сообщения ответы, прежде чем пытаться их получить
+    if message.replies:
+        # Попытка получить ответы только при наличии действительного идентификатора сообщения
+        reply_message = await client.get_messages(full_channel.full_chat.id, ids=message.id)
+        async for comment in client.iter_messages(full_channel.full_chat.id, reply_to=reply_message.id):
+            comment_obj = Comment(
+                post_id=post.id,
+                text=comment.text,
+                number=str(comment.id),
+                sentiment_color=get_sentiment(comment.text),  # Замените на необходимое значение
+            )
+
+            db.session.add(comment_obj)
+            try:
+                db.session.commit()
+            except Exception:
+                db.session.rollback()
 
 
 if __name__ == "__main__":
