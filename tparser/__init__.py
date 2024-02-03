@@ -1,8 +1,10 @@
+import asyncio
 from os import walk
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask, render_template, request
-from tparser.parser import get_data_from_tg
+from tparser.aparser import get_data_from_tg
 from tparser.db import db
+from tparser.models import Channel, Post
 
 
 def create_app():
@@ -17,11 +19,28 @@ def create_app():
     def index():
         title = "Telegram parser"
         # jobs = scheduler.get_jobs()
-        return render_template("index.html", page_title=title, jobs=[1, 2, 3])
-    
+        channels = Channel.query.all()
+
+        return render_template("index.html", page_title=title, jobs=[1, 2, 3], channels=channels)
+ 
     @app.route("/parse")
     def run_parser():
-        job = get_data_from_tg()
-        return render_template("info.html",  job=job)
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        result = loop.run_until_complete(get_data_from_tg())
+        
+        return render_template("info.html",  job=result)
+
+    @app.route("/channel")
+    def channel():
+        posts = Post.query.all()
+       
+        return render_template("channel.html", posts=posts)
+ 
 
     return app
+
+   # @app.route("/parse")
+    # def run_parser():
+    #     job = get_data_from_tg()
+    #     return render_template("info.html",  job=job)

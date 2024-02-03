@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h3>{{channel_name}}</h3>
+        <p>{{channel_description}}
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <ul class="list-group">
+          {% for post in posts %}
+            <li class="list-group-item">{{post.text}}</li>
+          {% endfor %}
+      </div>      
+    </div>
+  </div> 
+{% endblock %}

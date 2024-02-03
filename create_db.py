@@ -1,4 +1,4 @@
-from telegram_parser import create_app, db
+from tparser import create_app, db
 
 app = create_app()
 

@@ -68,14 +68,14 @@ class Comment(db.Model):
     post = db.relationship("Post", back_populates="comments")
     text = db.Column(db.String)
     number = db.Column(db.Integer)
-    semantic_color = db.Column(db.Float)
+    sentiment_color = db.Column(db.String)
     is_deleted = db.Column(db.Boolean, default=False)
 
     def delete(self):
         self.is_deleted = True
 
     def __repr__(self):
-        return f"Comment id={self.id} text={self.text[:40]} semantic_color={self.semantic_color}"
+        return f"Comment id={self.id} text={self.text[:40]} sentiment_color={self.sentiment_color}"
 
 
 class AnalysisData(db.Model):
@@ -87,7 +87,7 @@ class AnalysisData(db.Model):
     num_likes = db.Column(db.Integer)
     num_views = db.Column(db.Integer)
     num_comments = db.Column(db.Integer)
-    semantic_color = db.Column(db.Float)
+    sentiment_color = db.Column(db.String)
     analysis_date = db.Column(db.DateTime, default=datetime.utcnow)
     is_deleted = db.Column(db.Boolean, default=False)
 
