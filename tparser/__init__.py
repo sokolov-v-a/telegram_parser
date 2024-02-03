@@ -22,25 +22,25 @@ def create_app():
         channels = Channel.query.all()
 
         return render_template("index.html", page_title=title, jobs=[1, 2, 3], channels=channels)
- 
+
     @app.route("/parse")
     def run_parser():
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         result = loop.run_until_complete(get_data_from_tg())
-        
-        return render_template("info.html",  job=result)
+
+        return render_template("info.html", job=result)
 
     @app.route("/channel")
     def channel():
         posts = Post.query.all()
-       
+
         return render_template("channel.html", posts=posts)
- 
 
     return app
 
-   # @app.route("/parse")
-    # def run_parser():
-    #     job = get_data_from_tg()
-    #     return render_template("info.html",  job=job)
+
+# @app.route("/parse")
+# def run_parser():
+#     job = get_data_from_tg()
+#     return render_template("info.html",  job=job)

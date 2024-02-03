@@ -3,6 +3,8 @@
 config.py
 my_examples.py
 .DS_Store
+.db
+.session
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

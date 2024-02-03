@@ -4,16 +4,19 @@ from dostoevsky.models import FastTextSocialNetworkModel
 tokenizer = RegexTokenizer()
 model = FastTextSocialNetworkModel(tokenizer=tokenizer)
 
+
 def get_sentiment(text):
     messages = [text]
     results = model.predict(messages, k=2)
     for message, sentiment in zip(messages, results):
-        if 'negative' in sentiment:
-            return 'negative'
-        elif 'positive' in sentiment:
-            return 'positive'
-    
-    return 'neutral'    
+        if "negative" in sentiment:
+            # print(message)
+            return -round(float(sentiment["negative"]), 2)
+        elif "positive" in sentiment:
+            # print(message)
+            return round(float(sentiment["positive"]), 2)
+
+    return 0.0
 
 
 # messages = [

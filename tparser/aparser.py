@@ -7,6 +7,7 @@ from tparser.config import API_ID, API_HASH, CHANNEL_LINK, PHONE_NUMBER, POSTS_L
 from tparser.models import Comment, Post
 from tparser.sentiment_analysis import get_sentiment
 
+
 async def get_data_from_tg():
     async with TelegramClient("session_name", API_ID, API_HASH) as client:
         await client.connect()
@@ -52,7 +53,8 @@ async def get_data_from_tg():
                         db.session.rollback()
 
         await client.disconnect()
-        return 'Job Done!'
+        return "Job Done!"
+
 
 if __name__ == "__main__":
     asyncio.run(get_data_from_tg())
